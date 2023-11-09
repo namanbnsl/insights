@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  insights-db:
+    image: postgres
+    restart: always
+    container_name: insights-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: insights
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+
+volumes:
+  postgres:
