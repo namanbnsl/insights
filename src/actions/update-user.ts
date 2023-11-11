@@ -5,9 +5,10 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export async function onboardUser(
+export async function updateUser(
   values: z.infer<typeof onboardFormSchema>,
-  email: string
+  email: string,
+  redirectLink?: string
 ) {
   await db.user.update({
     where: {
@@ -19,5 +20,9 @@ export async function onboardUser(
     },
   });
 
-  return redirect("/dashboard");
+  if (redirectLink) {
+    return redirect(redirectLink);
+  } else {
+    return "";
+  }
 }

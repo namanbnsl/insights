@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { onboardUser } from "@/actions/onboard-user";
+import { updateUser } from "@/actions/update-user";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
@@ -50,7 +50,7 @@ const Onboarding = () => {
     try {
       setLoading(true);
 
-      await onboardUser(values, session.data?.user?.email!);
+      await updateUser(values, session.data?.user?.email!, "/dashboard");
     } catch (err) {
       toast({
         title: "Uh oh! Something went wrong.",
@@ -86,7 +86,7 @@ const Onboarding = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="joe" {...field} />
+                    <Input autoComplete="off" placeholder="joe" {...field} />
                   </FormControl>
                   <FormDescription>This is your display name.</FormDescription>
                   <FormMessage />

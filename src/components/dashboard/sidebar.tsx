@@ -1,8 +1,15 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { GoHome } from "react-icons/go";
 import { AiOutlineQuestion } from "react-icons/ai";
+import { IoSettingsOutline } from "react-icons/io5";
+import { BsFiles } from "react-icons/bs";
+import { Badge } from "@/components/ui/badge";
+import SidebarProfile from "@/components/dashboard/profile";
+import { usePathname } from "next/navigation";
 
 type Props = {};
 
@@ -10,6 +17,8 @@ type SidebarLink = {
   name: string;
   icon: IconType;
   href: string;
+
+  badge?: string;
 };
 
 const links: SidebarLink[] = [
@@ -23,9 +32,22 @@ const links: SidebarLink[] = [
     icon: AiOutlineQuestion,
     name: "Ask",
   },
+  {
+    href: "/dashboard/resources",
+    icon: BsFiles,
+    name: "Resources",
+    badge: "20",
+  },
+  {
+    href: "/dashboard/settings",
+    icon: IoSettingsOutline,
+    name: "Settings",
+  },
 ];
 
 const Sidebar = (props: Props) => {
+  const path = usePathname();
+
   return (
     <aside className="h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-80 border-r">
       <div className="p-8 h-full mt-9">
@@ -59,16 +81,27 @@ const Sidebar = (props: Props) => {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm group flex w-full justify-start font-medium cursor-pointer hover:text-gray-700/90 rounded-lg transition "
+                "text-sm group flex w-full justify-start font-medium cursor-pointer hover:text-gray-700/90 rounded-lg transition",
+                `${path === link.href ? "text-gray-500" : "text-gray-800"}`
               )}
             >
-              <div className="flex items-center flex-1">
-                <link.icon className={cn("h-5 w-5 mr-3")} />
-                {link.name}
+              <div className="flex items-center flex-1 justify-between">
+                <div className="flex">
+                  <link.icon className={cn("h-5 w-5 mr-3")} />
+                  {link.name}
+                </div>
+                <div>
+                  {link.badge && (
+                    <Badge variant={"default"}>{link.badge}</Badge>
+                  )}
+                </div>
               </div>
             </Link>
           ))}
         </div>
+      </div>
+      <div className="p-4">
+        <SidebarProfile />
       </div>
     </aside>
   );
