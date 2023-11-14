@@ -1,8 +1,6 @@
-import SignIn from "@/components/sign-in";
+import SignIn from '@/components/sign-in';
 
-type Props = {};
-
-const SignInPage = (props: Props) => {
+const SignInPage = () => {
   return (
     <div>
       <SignIn />

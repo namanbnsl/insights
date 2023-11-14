@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 type Props = {
   username: string;
@@ -6,8 +6,8 @@ type Props = {
   email: string;
 };
 
-import { updateUser } from "@/actions/update-user";
-import { Button } from "@/components/ui/button";
+import { updateUser } from '@/actions/update-user';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,27 +15,26 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, SendHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { IoSettingsOutline } from "react-icons/io5";
-import { z } from "zod";
+  FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { toast } from '@/components/ui/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, SendHorizontal } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { z } from 'zod';
 
 export const accountSettingsFormSchema = z.object({
   username: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+      message: 'Username must be at least 2 characters.'
     })
-    .refine((s) => !s.includes(" "), "Only one word."),
-  is_teacher: z.boolean(),
+    .refine((s) => !s.includes(' '), 'Only one word.'),
+  is_teacher: z.boolean()
 });
 type AccountFormValues = z.infer<typeof accountSettingsFormSchema>;
 
@@ -46,8 +45,8 @@ const Settings = (props: Props) => {
     resolver: zodResolver(accountSettingsFormSchema),
     defaultValues: {
       username: props.username,
-      is_teacher: props.is_teacher,
-    },
+      is_teacher: props.is_teacher
+    }
   });
 
   const onSubmit = async (
@@ -61,10 +60,10 @@ const Settings = (props: Props) => {
       return window.location.reload();
     } catch (err) {
       toast({
-        title: "Uh oh! Something went wrong.",
+        title: 'Uh oh! Something went wrong.',
         description:
-          "There was a problem with your request. Please try again later or contact us.",
-        variant: "destructive",
+          'There was a problem with your request. Please try again later or contact us.',
+        variant: 'destructive'
       });
     } finally {
       setLoading(false);
@@ -133,8 +132,8 @@ const Settings = (props: Props) => {
                 )}
               />
               <Button
-                variant={"outline"}
-                size={"sm"}
+                variant={'outline'}
+                size={'sm'}
                 disabled={loading}
                 type="submit"
                 className="mt-5 w-[40%]"

@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal } from 'lucide-react';
 
 const HomePage = () => {
   return (
@@ -74,7 +73,7 @@ const HomePage = () => {
               </div>
 
               <Link
-                href={"/dashboard"}
+                href={'/dashboard'}
                 className="w-full flex justify-center pt-4"
               >
                 <Button className="flex w-1/5">

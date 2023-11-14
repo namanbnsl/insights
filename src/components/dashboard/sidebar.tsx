@@ -1,17 +1,24 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { IconType } from "react-icons";
-import { GoHome } from "react-icons/go";
-import { AiOutlineQuestion } from "react-icons/ai";
-import { IoSettingsOutline } from "react-icons/io5";
-import { BsFiles } from "react-icons/bs";
-import { Badge } from "@/components/ui/badge";
-import SidebarProfile from "@/components/dashboard/profile";
-import { usePathname } from "next/navigation";
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { IconType } from 'react-icons';
+import { GoHome } from 'react-icons/go';
+import { AiOutlineQuestion } from 'react-icons/ai';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { BsFiles } from 'react-icons/bs';
+import { Badge } from '@/components/ui/badge';
+import SidebarProfile from '@/components/dashboard/profile';
+import { usePathname } from 'next/navigation';
+import ClassPicker from '@/components/dashboard/class-picker';
+import { Class } from '@prisma/client';
+import { Button } from '@/components/ui/button';
+import { PlusIcon } from 'lucide-react';
+import { useModal } from '@/hooks/useModalStore';
 
-type Props = {};
+type Props = {
+  classes: Class[];
+};
 
 type SidebarLink = {
   name: string;
@@ -23,35 +30,37 @@ type SidebarLink = {
 
 const links: SidebarLink[] = [
   {
-    href: "/dashboard",
+    href: '/dashboard',
     icon: GoHome,
-    name: "Dashboard",
+    name: 'Dashboard'
   },
   {
-    href: "/dashboard/ask",
+    href: '/dashboard/ask',
     icon: AiOutlineQuestion,
-    name: "Ask",
+    name: 'Ask'
   },
   {
-    href: "/dashboard/resources",
+    href: '/dashboard/resources',
     icon: BsFiles,
-    name: "Resources",
-    badge: "20",
+    name: 'Resources',
+    badge: '20'
   },
   {
-    href: "/dashboard/settings",
+    href: '/dashboard/settings',
     icon: IoSettingsOutline,
-    name: "Settings",
-  },
+    name: 'Settings'
+  }
 ];
 
 const Sidebar = (props: Props) => {
   const path = usePathname();
 
+  const { onOpen } = useModal();
+
   return (
     <aside className="h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-80 border-r">
       <div className="p-8 h-full mt-9">
-        <Link href={"/dashboard"} className="flex text-xl gap-x-2 font-bold">
+        <Link href={'/dashboard'} className="flex text-xl gap-x-2 font-bold">
           <svg
             className=" h-6 w-6"
             fill="none"
@@ -75,24 +84,36 @@ const Sidebar = (props: Props) => {
           <span>insights</span>
         </Link>
 
+        <div className="mt-8">
+          <ClassPicker classes={props.classes} />
+
+          <Button
+            onClick={() => onOpen('createClass')}
+            variant={'link'}
+            className="text-sm px-1"
+          >
+            Create Class <PlusIcon className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+
         <div className="mt-12 text-md w-full flex flex-col gap-y-5">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm group flex w-full justify-start font-medium cursor-pointer hover:text-gray-700/90 rounded-lg transition",
-                `${path === link.href ? "text-gray-500" : "text-gray-800"}`
+                'text-sm group flex w-full justify-start font-medium cursor-pointer hover:text-gray-700/90 rounded-lg transition',
+                `${path === link.href ? 'text-gray-500' : 'text-gray-800'}`
               )}
             >
               <div className="flex items-center flex-1 justify-between">
                 <div className="flex">
-                  <link.icon className={cn("h-5 w-5 mr-3")} />
+                  <link.icon className={cn('h-5 w-5 mr-3')} />
                   {link.name}
                 </div>
                 <div>
                   {link.badge && (
-                    <Badge variant={"default"}>{link.badge}</Badge>
+                    <Badge variant={'default'}>{link.badge}</Badge>
                   )}
                 </div>
               </div>

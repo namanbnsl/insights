@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Loader2, SendHorizontal } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Loader2, SendHorizontal } from 'lucide-react';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -13,23 +13,23 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { z } from "zod";
-import { updateUser } from "@/actions/update-user";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { Switch } from "@/components/ui/switch";
+  FormMessage
+} from '@/components/ui/form';
+import { z } from 'zod';
+import { updateUser } from '@/actions/update-user';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+import { Switch } from '@/components/ui/switch';
 
 export const onboardFormSchema = z.object({
   username: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+      message: 'Username must be at least 2 characters.'
     })
-    .refine((s) => !s.includes(" "), "Only one word."),
-  is_teacher: z.boolean(),
+    .refine((s) => !s.includes(' '), 'Only one word.'),
+  is_teacher: z.boolean()
 });
 
 const Onboarding = () => {
@@ -41,22 +41,26 @@ const Onboarding = () => {
   const form = useForm<z.infer<typeof onboardFormSchema>>({
     resolver: zodResolver(onboardFormSchema),
     defaultValues: {
-      username: "",
-      is_teacher: false,
-    },
+      username: '',
+      is_teacher: false
+    }
   });
 
   const onSubmit = async (values: z.infer<typeof onboardFormSchema>) => {
     try {
       setLoading(true);
 
-      await updateUser(values, session.data?.user?.email!, "/dashboard");
+      await updateUser(
+        values,
+        session.data?.user?.email as string,
+        '/dashboard'
+      );
     } catch (err) {
       toast({
-        title: "Uh oh! Something went wrong.",
+        title: 'Uh oh! Something went wrong.',
         description:
-          "There was a problem with your request. Please try again later or contact us.",
-        variant: "destructive",
+          'There was a problem with your request. Please try again later or contact us.',
+        variant: 'destructive'
       });
     } finally {
       setLoading(false);
@@ -69,7 +73,7 @@ const Onboarding = () => {
         <div className="p-8 flex flex-col gap-y-[2px]">
           <span className="font-bold text-lg">Let&apos;s get you started.</span>
           <span className="text-sm text-slate-500">
-            Let&apos;s set your username and get you started with{" "}
+            Let&apos;s set your username and get you started with{' '}
             <span className="underline font-bold">insights</span>.
           </span>
         </div>
@@ -122,7 +126,7 @@ const Onboarding = () => {
             </Button>
           </form>
         </Form>
-      </div>{" "}
+      </div>{' '}
     </div>
   );
 };

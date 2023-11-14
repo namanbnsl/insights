@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 const SignIn = () => {
   return (
@@ -30,7 +30,7 @@ const SignIn = () => {
           className="w-full flex justify-center items-center"
           variant="outline"
           onClick={() => {
-            signIn("google");
+            signIn('google');
           }}
         >
           <svg

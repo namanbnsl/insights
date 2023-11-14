@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { GoHome } from "react-icons/go";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { GoHome } from 'react-icons/go';
 
 export default function NotFound() {
   return (
     <div className="flex flex-col h-screen w-screen items-center justify-center">
       <Link
-        href={"/dashboard"}
+        href={'/dashboard'}
         className="flex text-3xl gap-x-2 font-bold mb-4"
       >
         <svg
@@ -41,8 +41,8 @@ export default function NotFound() {
       </p>
 
       <div className="mt-6">
-        <Link href={"/"}>
-          <Button variant={"link"}>
+        <Link href={'/'}>
+          <Button variant={'link'}>
             <GoHome className="mr-2 w-6 h-6" />
             Go Back
           </Button>

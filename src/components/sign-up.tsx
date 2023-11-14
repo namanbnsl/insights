@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
+import { Button } from '@/components/ui/button';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 const SignUp = () => {
   return (
@@ -26,7 +26,7 @@ const SignUp = () => {
           className="w-full flex justify-center items-center"
           variant="outline"
           onClick={() => {
-            signIn("google");
+            signIn('google');
           }}
         >
           <svg

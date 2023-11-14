@@ -48,10 +48,47 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  username String?
-  role     Role?
+  username     String?
+  role         Role?
+  classes      ClassToStudent[]
+  classId      String?
+  classesOwned Class[]          @relation("ClassOwner")
 
   @@index([email])
+}
+
+model Class {
+  id String @id @default(cuid())
+
+  owner   User   @relation("ClassOwner", fields: [ownerId], references: [id])
+  ownerId String
+
+  name     String
+  students ClassToStudent[]
+
+  resources Resources[]
+}
+
+model Resources {
+  id   String @id @default(cuid())
+  name String
+
+  subject String
+
+  resourceUrl String
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+}
+
+model ClassToStudent {
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
+
+  @@id([classId, studentId])
 }
 
 model VerificationToken {
