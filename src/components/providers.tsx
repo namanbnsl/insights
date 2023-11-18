@@ -1,6 +1,7 @@
 'use client';
 
 import { CreateClassModal } from '@/components/modals/create-class-modal';
+import CreateResourceModal from '@/components/modals/create-resource-modal';
 import { Toaster } from '@/components/ui/toaster';
 import { SessionProvider } from 'next-auth/react';
 import React from 'react';
@@ -13,6 +14,7 @@ const Providers = (props: Props) => {
   return (
     <SessionProvider>
       <CreateClassModal />
+      <CreateResourceModal />
 
       {props.children}
       <Toaster />

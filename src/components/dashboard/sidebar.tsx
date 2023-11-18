@@ -11,13 +11,16 @@ import { Badge } from '@/components/ui/badge';
 import SidebarProfile from '@/components/dashboard/profile';
 import { usePathname } from 'next/navigation';
 import ClassPicker from '@/components/dashboard/class-picker';
-import { Class } from '@prisma/client';
+import { Class, Resources } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { useModal } from '@/hooks/useModalStore';
 
 type Props = {
   classes: Class[];
+  currentClass: string;
+
+  resources: Resources[];
 };
 
 type SidebarLink = {
@@ -28,31 +31,31 @@ type SidebarLink = {
   badge?: string;
 };
 
-const links: SidebarLink[] = [
-  {
-    href: '/dashboard',
-    icon: GoHome,
-    name: 'Dashboard'
-  },
-  {
-    href: '/dashboard/ask',
-    icon: AiOutlineQuestion,
-    name: 'Ask'
-  },
-  {
-    href: '/dashboard/resources',
-    icon: BsFiles,
-    name: 'Resources',
-    badge: '20'
-  },
-  {
-    href: '/dashboard/settings',
-    icon: IoSettingsOutline,
-    name: 'Settings'
-  }
-];
-
 const Sidebar = (props: Props) => {
+  const links: SidebarLink[] = [
+    {
+      href: '/dashboard',
+      icon: GoHome,
+      name: 'Dashboard'
+    },
+    {
+      href: '/dashboard/ask',
+      icon: AiOutlineQuestion,
+      name: 'Ask'
+    },
+    {
+      href: '/dashboard/resources',
+      icon: BsFiles,
+      name: 'Resources',
+      badge: props.resources.length.toString()
+    },
+    {
+      href: '/dashboard/settings',
+      icon: IoSettingsOutline,
+      name: 'Settings'
+    }
+  ];
+
   const path = usePathname();
 
   const { onOpen } = useModal();
@@ -85,7 +88,10 @@ const Sidebar = (props: Props) => {
         </Link>
 
         <div className="mt-8">
-          <ClassPicker classes={props.classes} />
+          <ClassPicker
+            classes={props.classes}
+            currentClass={props.currentClass}
+          />
 
           <Button
             onClick={() => onOpen('createClass')}

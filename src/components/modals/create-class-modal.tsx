@@ -50,12 +50,7 @@ export const CreateClassModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const classOwneed = await createClass(
-        values,
-        session.data?.user?.id as string
-      );
-
-      await window.localStorage.setItem('current-class', classOwneed?.id);
+      await createClass(values, session.data?.user?.id as string);
 
       form.reset();
       onClose();

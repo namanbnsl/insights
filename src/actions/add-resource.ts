@@ -1,16 +1,18 @@
 'use server';
 
-import { resourceUploadFormSchema } from '@/components/dashboard/resources/resources';
+import { resourceUploadFormSchema } from '@/components/modals/create-resource-modal';
+import { getEmbeddings } from '@/lib/cohere';
 import { db } from '@/lib/db';
+import { insightsIndex } from '@/lib/pinecone';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-export async function updateUser(
+export async function addResource(
   values: z.infer<typeof resourceUploadFormSchema>,
   classId: string,
   redirectLink?: string
 ) {
-  await db.resources.create({
+  const resource = await db.resources.create({
     data: {
       name: values.name,
       resourceUrl: values.resourceUrl,
@@ -18,6 +20,21 @@ export async function updateUser(
       classId: classId
     }
   });
+
+  const resourceText = await fetch(values.resourceUrl);
+  const text = await resourceText.text();
+
+  const embedding = await getEmbeddings(text);
+
+  await insightsIndex.upsert([
+    {
+      id: resource.id,
+      values: embedding,
+      metadata: {
+        classId: classId
+      }
+    }
+  ]);
 
   if (redirectLink) {
     return redirect(redirectLink);

@@ -2,6 +2,7 @@ import Sidebar from '@/components/dashboard/sidebar';
 import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout({
@@ -35,9 +36,19 @@ export default async function DashboardLayout({
     return redirect('/create-class');
   }
 
+  const currentClass = cookies().get('current-class');
+
+  const resources = await db.resources.findMany({
+    where: { classId: currentClass?.value }
+  });
+
   return (
     <>
-      <Sidebar classes={classesOwned} />
+      <Sidebar
+        currentClass={currentClass?.value as string}
+        classes={classesOwned}
+        resources={resources}
+      />
       <div className="ml-72">{children}</div>
     </>
   );

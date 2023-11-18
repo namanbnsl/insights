@@ -47,16 +47,7 @@ const CreateClass = () => {
     try {
       setLoading(true);
 
-      const classOwneed = await createClass(
-        values,
-        session.data?.user?.id as string
-      );
-
-      const classId = window.localStorage.getItem('current-class');
-
-      if (!classId) {
-        window.localStorage.setItem('current-class', classOwneed?.id);
-      }
+      await createClass(values, session.data?.user?.id as string);
 
       router.refresh();
     } catch (err) {

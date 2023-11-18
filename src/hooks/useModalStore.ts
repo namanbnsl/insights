@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type ModalType = 'createClass';
+export type ModalType = 'createClass' | 'addResource';
 
 interface ModalStore {
   type: ModalType | null;

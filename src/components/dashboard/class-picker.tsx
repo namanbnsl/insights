@@ -18,15 +18,21 @@ import { Class } from '@prisma/client';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
 
+import { useCookies } from 'next-client-cookies';
+import { useRouter } from 'next/navigation';
+
 type Props = {
   classes: Class[];
+  currentClass: string;
 };
 
 const ClassPicker = (props: Props) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(
-    window.localStorage.getItem('current-class')
-  );
+  const [value, setValue] = useState(props.currentClass);
+
+  const cookies = useCookies();
+
+  const router = useRouter();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,10 +60,12 @@ const ClassPicker = (props: Props) => {
                 key={insightsClass.name}
                 value={insightsClass.id}
                 onSelect={(currentValue) => {
-                  window.localStorage.setItem('current-class', currentValue);
+                  cookies.set('current-class', currentValue);
 
                   setValue(currentValue === value ? '' : currentValue);
                   setOpen(false);
+
+                  router.refresh();
                 }}
               >
                 <Check
