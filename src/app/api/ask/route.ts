@@ -11,8 +11,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const messages = body.messages;
 
-  const messagesTruncated = messages.slice(-1);
-  console.log(messagesTruncated);
+  const messagesTruncated = messages.slice(-2);
 
   const embedding = await getEmbeddings(
     messagesTruncated
@@ -36,7 +35,11 @@ export async function POST(req: Request) {
 
   const text = await getTextFromUrl(relevantResource?.resourceUrl as string);
 
-  const prompt = `You are a smart AI educator that answers a doubt from the context that is given to you. Do not reference the resource or context anywhere. Also do not answer in more than 2 sentences. Do not use words such as "based". Just give a simple answer.\n
+  // const prompt = `You are a smart AI educator that answers a doubt from the context that is given to you. Do not reference the resource or context anywhere. Also do not answer in more than 2 sentences. Do not use words such as "based". Just give a simple answer.\n
+  //   The doubt is ${messagesTruncated}. \n
+  //   The context for this doubt is: ${text}\n`;
+
+  const prompt = `You are a smart AI educator that answers a doubt from the context that is given to you. Do not reference the resource or context anywhere. Be simple and answer in as few sentences as possible.\n
     The doubt is ${messagesTruncated}. \n
     The context for this doubt is: ${text}\n`;
 

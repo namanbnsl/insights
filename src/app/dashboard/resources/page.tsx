@@ -1,29 +1,34 @@
-'use client';
+import Resources from '@/components/dashboard/resources/Resources';
+import { db } from '@/lib/db';
+import { cookies } from 'next/headers';
 
-import { Button } from '@/components/ui/button';
-import { useModal } from '@/hooks/useModalStore';
-import { PlusCircle } from 'lucide-react';
-import { BsFiles } from 'react-icons/bs';
+async function getResources() {
+  const resources = await db.resources.findMany({
+    where: { classId: cookies().get('current-class')?.value }
+  });
 
-const ResourcesPage = () => {
-  const { onOpen } = useModal();
+  return resources;
+}
+
+const ResourcesPage = async () => {
+  const resources = await getResources();
 
   return (
     <div className="p-20">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="font-semibold text-3xl flex items-center gap-x-3">
-            Resources <BsFiles className="w-6 h-6" />
-          </h2>
-          <span className="text-sm text-slate-500">
-            Add resources for your students from here.
-          </span>
-        </div>
+      <Resources />
 
-        <Button onClick={() => onOpen('addResource')}>
-          Add
-          <PlusCircle className="w-4 h-4 ml-2" />
-        </Button>
+      <div className="mt-16">
+        {resources.map((resource) => (
+          <div
+            className="p-4 mb-3 rounded bg-white border border-dashed w-1/3 flex flex-col cursor-pointer hover:bg-gray-100/90 transition"
+            key={resource.id}
+          >
+            <span>{resource.name}</span>
+            <span className="text-xs uppercase text-gray-500">
+              Subject: {resource.subject}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

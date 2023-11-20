@@ -1,4 +1,4 @@
-import Ask from '@/app/dashboard/ask/Ask';
+import Ask from '@/components/dashboard/ask/Ask';
 import { AiOutlineQuestion } from 'react-icons/ai';
 
 const AskPage = () => {
