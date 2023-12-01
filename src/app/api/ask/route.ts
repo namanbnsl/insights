@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const messages = body.messages;
 
-  const messagesTruncated = messages.slice(-2);
+  const messagesTruncated = messages.slice(-1);
 
   const embedding = await getEmbeddings(
     messagesTruncated
